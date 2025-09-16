@@ -1,0 +1,32 @@
+.grid {
+  --grid-gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, 1fr);
+  gap: var(--grid-gap);
+  margin: 0 auto;
+  padding: 12px;
+  background-color: #f5f6f7;
+}
+
+.cell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  width: 100%;
+}
+
+/* La CategoryCard riempie la cella */
+.cell > * { width: 100%; height: 100%; }
+
+/* Layout mobile: una colonna, altezza gestita dalla CategoryCard */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: clamp(0.75rem, 3vw, 1rem);
+    max-width: 560px;
+  }
+  .cell {
+    height: auto;
+  }
+}

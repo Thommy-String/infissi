@@ -1,0 +1,245 @@
+/*************************
+ * CategoryCard — Clean CSS (same visuals, tidier code)
+ *************************/
+:root {
+  /* Base dimensions (desktop default) */
+  --hero-height: 750px;
+  --hero-image-height: 500px;
+}
+
+/* =========================
+   Responsive variable tuning
+   ========================= */
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --hero-height: 680px;
+    --hero-image-height: 360px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --hero-height: 820px;
+    --hero-image-height: 560px;
+  }
+}
+
+/* =========================
+   Base layout & themes
+   ========================= */
+.hero {
+  width: 100%;
+  height: var(--hero-height);
+  min-height: var(--hero-height);
+  overflow: hidden;
+}
+
+.dark { background: #000; color: #fff; }
+.light { background: #fff; color: var(--color-text); }
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  padding-top: clamp(5rem, 6vw, 5rem);
+  padding-right: var(--space-sm);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  padding-left: var(--space-sm);
+  text-align: center;
+  position: relative;
+  z-index: 2; /* testi e bottoni sopra l’immagine */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+/* Desktop+ breathing */
+@media (min-width: 1025px) {
+  .inner {
+    padding-top: clamp(3rem, 6vw, 5rem);
+    padding-bottom: clamp(1.25rem, 3vw, 2.5rem);
+  }
+}
+
+/* =========================
+   Typography
+   ========================= */
+.title {
+  font-size: 48px;
+  line-height: 1.08349;
+  font-weight: 600;
+  letter-spacing: -0.002em;
+  margin-bottom: 0.25rem;
+}
+.dark .title { color: #fff; }
+.light .title { color: #000; }
+
+.subtitle {
+  font-size: 24px;
+  line-height: 1.16667;
+  font-weight: 400;
+  letter-spacing: 0.009em;
+  margin-bottom: 0.25rem;
+}
+.dark .subtitle { color: #fff; }
+.light .subtitle { color: #000; }
+
+.meta {
+  font-size: 0.95rem;
+  opacity: 0.6;
+  margin-bottom: 1.25rem;
+}
+.dark .meta { color: rgba(255, 255, 255, 0.8); }
+.light .meta { color: #1d1d1f; }
+
+/* =========================
+   CTAs
+   ========================= */
+.ctas { display: inline-flex; gap: 0.75rem; margin-bottom: 0; }
+
+.btn {
+  display: inline-block;
+  cursor: pointer;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.17648;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  padding: 11px 21px;
+  border-radius: 980px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  transition: background .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btnPrimary { background-color: rgb(0, 119, 237); color: #fff; border: 1px solid transparent; }
+.btnPrimary:hover { background-color: #0a63c7; }
+.btnGhost { border: 1px solid currentColor; background: transparent; color: inherit; opacity: .95; }
+.btnGhost:hover { opacity: 1; background-color: rgba(0,0,0,.05); }
+.dark .btnGhost { color: #fff; border-color: rgba(255,255,255,.32); }
+.dark .btnGhost:hover { background-color: rgba(255,255,255,.12); }
+
+/* =========================
+   Image area
+   ========================= */
+.imageWrap {
+  position: relative;
+  z-index: 1; /* dietro al testo */
+  width: 100%;
+  height: var(--hero-image-height);
+  flex: 0 0 var(--hero-image-height); /* slot immagine fisso */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* evita tagli su desktop e mobile */
+  transform: translateY(0);
+  display: block; /* rimuove gap inline */
+}
+
+/* =========================
+   Variants — small/compact (used in 2×2 grid)
+   ========================= */
+.sm.hero { height: auto; min-height: 0; }
+
+.sm .inner {
+  /* più compatta ma centrata come le card base */
+  padding-top: clamp(0.5rem, 1.2vw, 1rem);
+  padding-bottom: clamp(0.5rem, 1.2vw, 1rem);
+  gap: 0.5rem;
+  justify-content: center;
+}
+.sm .inner > :not(.imageWrap) { padding-left: 1rem; padding-right: 1rem; }
+
+.sm .title { font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; margin-top: 42px; }
+.sm .subtitle { font-size: 18px; line-height: 1.3; }
+.sm .meta { font-size: 0.9rem; margin-bottom: 0; }
+.sm .ctas .btn { font-size: 15px; padding: 8px 16px; }
+.sm .imageWrap { height: var(--hero-image-height, 280px); flex: 0 0 var(--hero-image-height, 280px); width: 100%; }
+
+/* Optional legacy compact variant (kept for compatibility) */
+.compact .title { font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; }
+.compact .subtitle { font-size: 18px; line-height: 1.3; }
+.compact .meta { font-size: 0.85rem; }
+.compact .ctas .btn { font-size: 15px; padding: 9px 18px; }
+.compact .imageWrap { height: var(--hero-image-height, 320px); flex: 0 0 var(--hero-image-height, 320px); }
+
+/* =========================
+   Mobile (≤640px)
+   ========================= */
+@media (max-width: 640px) {
+  :root {
+    --hero-height: 550px;
+    --hero-image-height: 360px;
+  }
+
+  /* Type & spacing */
+  /* Usa la variabile mobile se presente (fallback a desktop) */
+  .imageWrap {
+    height: var(--hero-image-height-mobile, var(--hero-image-height));
+    flex-basis: var(--hero-image-height-mobile, var(--hero-image-height));
+  }
+
+  .title { font-size: 34px; line-height: 1.12; margin-top: 48px; }
+  .subtitle { font-size: 18px; line-height: 1.28; }
+  .meta { font-size: 0.9rem; margin-bottom: 0.75rem; }
+  .ctas { gap: 0.5rem; }
+  .btn { font-size: 16px; padding: 9px 18px; }
+
+  /* Container spacing */
+  .inner {
+    padding-top: clamp(1.25rem, 4vw, 2rem);
+    padding-bottom: clamp(0.75rem, 3vw, 1.25rem);
+    padding-left: 0; /* niente padding laterale */
+    padding-right: 0;
+    gap: 0.5rem;
+  }
+
+  /* Make grid cards (.sm) identical to single cards on mobile */
+  .sm.hero { height: var(--hero-height); min-height: var(--hero-height); }
+  .sm .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding-top: clamp(1.25rem, 4vw, 2rem);
+    padding-bottom: clamp(0.75rem, 3vw, 1.25rem);
+    padding-left: 0;
+    padding-right: 0;
+    gap: 0.5rem;
+    justify-content: flex-start; /* allinea come card singola */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .sm .inner > :not(.imageWrap) { padding-left: 0; padding-right: 0; }
+  .sm .title { font-size: 34px; line-height: 1.12; margin-top: 48px; }
+  .sm .subtitle { font-size: 18px; line-height: 1.28; }
+  .sm .meta { font-size: 0.9rem; margin-bottom: 0.75rem; }
+  .sm .ctas .btn { font-size: 16px; padding: 9px 18px; }
+  .sm .imageWrap {
+    height: var(--hero-image-height-mobile, var(--hero-image-height));
+    flex-basis: var(--hero-image-height-mobile, var(--hero-image-height));
+    width: 100%;
+  }
+}
+
+/* =========================
+   Extra large screens (≥1200px)
+   ========================= */
+@media (min-width: 1200px) {
+  .inner { padding-top: 5rem; }
+}
