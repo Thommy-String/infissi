@@ -76,10 +76,11 @@ export default function Header({ nav = [] }) {
 
         {/* Desktop menu */}
         <ul className={styles.menu}>
-          {nav.map((item) => (
+          {nav.map((item, idx) => (
             <li
               key={item.id}
               className={styles.menuItem}
+              style={{ "--i": idx }}
               onMouseEnter={() => openWithCancel(item.id)}
               onMouseLeave={scheduleClose}
             >
@@ -101,12 +102,13 @@ export default function Header({ nav = [] }) {
                   onMouseLeave={scheduleClose}
                 >
                   <ul className={styles.flyoutList}>
-                    {item.children.map((sub) => {
+                    {item.children.map((sub, sIdx) => {
                       const isSimple = isSimpleEntry(sub);
                       return (
                         <li
                           key={sub.id}
                           className={`${styles.flyoutItem} ${isSimple ? styles.flyoutItemSimple : ''}`}
+                          style={{ "--i": sIdx }}
                         >
                           <a
                             className={`${styles.flyoutLink} ${isSimple ? styles.flyoutLinkSimple : ''}`}
@@ -167,8 +169,8 @@ export default function Header({ nav = [] }) {
         aria-hidden={!mobileOpen}
       >
         <ul className={styles.drawerList}>
-          {nav.map((item) => (
-            <MobileGroup key={item.id} item={item} onNavigate={() => setMobileOpen(false)} />
+          {nav.map((item, idx) => (
+            <MobileGroup key={item.id} item={item} orderIndex={idx} onNavigate={() => setMobileOpen(false)} />
           ))}
         </ul>
       </div>
@@ -183,10 +185,10 @@ export default function Header({ nav = [] }) {
   );
 }
 
-function MobileGroup({ item, onNavigate }) {
+function MobileGroup({ item, onNavigate, orderIndex = 0 }) {
   const [open, setOpen] = useState(false);
   return (
-    <li className={styles.group}>
+    <li className={styles.group} style={{ "--i": orderIndex }}>
       <button
         className={styles.groupToggle}
         aria-expanded={open}
@@ -199,10 +201,10 @@ function MobileGroup({ item, onNavigate }) {
       </button>
       {item.children?.length > 0 && (
         <ul className={`${styles.groupList} ${open ? styles.groupListOpen : ""}`}>
-          {item.children.map((sub) => {
+          {item.children.map((sub, subIdx) => {
             const simple = isSimpleEntry(sub);
             return (
-              <li key={sub.id} className={styles.groupItem}>
+              <li key={sub.id} className={styles.groupItem} style={{ "--i": subIdx }}>
                 <a href={sub.href || "#"} className={styles.groupLink} onClick={onNavigate}>
                   {(sub.image || sub.flyoutImage) && !simple ? (
                     <span className={styles.groupThumb} aria-hidden={true}>
