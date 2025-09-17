@@ -10,7 +10,7 @@
   --ease-spring: cubic-bezier(.22,1,.36,1);   /* bouncy but subtle */
   --ease-soft:   cubic-bezier(.2,.8,.2,1);    /* smooth */
   --ease-elegant: cubic-bezier(.16,.84,.24,1.02); /* slower, fluid desktop */
-  --flyout-card-min: 120px; /* unified min-height for flyout cards */
+  --flyout-card-min: 250px; /* unified min-height for flyout cards */
 }
 
 html, body { width: 100%; }
@@ -132,14 +132,19 @@ html, body { width: 100%; }
   gap: 14px 18px;
   align-items: stretch;
 }
-.flyoutItem { border-radius: 10px; }
+.flyoutItem {
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 2px 4px 12px #00000014;
+}
 .flyoutLink {
   display: grid;
   gap: 2px;
   padding: 14px 16px;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--text);
+  color: #000;
   background: transparent;
   transition: background .18s ease, transform .12s ease;
   align-items: start;
@@ -189,15 +194,17 @@ html, body { width: 100%; }
 .flyoutText { display: grid; gap: 6px; }
 .flyoutMedia {
   width: 100%;
-  aspect-ratio: 4/3;
+  height: 100%;            /* fill available card height */
+  aspect-ratio: auto;      /* let height control the sizing */
   border-radius: 10px;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   border: 1px solid var(--border);
 }
 .flyoutImage {
-  width: 100%; height: 100%;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   display: block;
 }
 
@@ -277,7 +284,7 @@ html, body { width: 100%; }
 }
 
 /* ===== Mobile drawer — Apple‑like scale & rhythm ===== */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   /* Big, comfy tap targets */
   .drawerList { padding: 28px 24px 40px 24px; gap: 0; }
 
@@ -461,6 +468,35 @@ html, body { width: 100%; }
 
   /* Hover scale of titles eased and slightly slower for elegance */
   
+  /* Make desktop flyout items equal height and slightly smaller */
+  .flyout { 
+    /* shrink card height a bit only on desktop */
+    --flyout-card-min: 230px; 
+  }
+
+  /* Force equal card heights per grid row */
+  .flyoutList {
+    grid-auto-rows: var(--flyout-card-min);
+  }
+  .flyoutLink { height: 100%; }
+  .flyoutContent { min-height: var(--flyout-card-min); height: 100%; }
+
+  /* Slightly tighter padding for desktop cards */
+  .flyoutLink {
+    padding: 12px 38px;
+  }
+
+  /* Slightly smaller titles on desktop */
+  .flyoutTitle {
+    font-size: 28px;
+  }
+
+  /* Keep the simple items visually aligned with same height */
+  .flyoutItemSimple .flyoutLink,
+  .flyoutLinkSimple {
+    padding: 12px 38px;
+  }
+  .flyoutItemSimple .flyoutTitle { font-size: 28px; }
 }
 
 /* Respect users that prefer reduced motion */

@@ -17,7 +17,7 @@ const SUBCATS = {
     { slug: 'legno',       label: 'Infissi in legno',      meta: 'Calore estetico e performance elevate.',    image: 'https://www.mdbportas.com/wp-content/uploads/infisso-in-legno-energia-e9-6.jpg', imageAlt: 'Infisso in legno' },
   ],
   finestre: [
-    { slug: 'battente',    label: 'Finestre a battente',   meta: 'Versatili e isolate.',                      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfk0tebo8ahk10aueOpS61UtQkyfMZ29qxDQ&s', imageAlt: 'Finestra a battente' },
+    { slug: 'battente',    label: 'Finestre a battente',   meta: 'Versatili e isolate.',                      image: 'https://i.ebayimg.com/images/g/-ZMAAOSwSiVmL2yn/s-l1200.jpg', imageAlt: 'Finestra a battente' },
     { slug: 'scorrevoli',  label: 'Finestre scorrevoli',   meta: 'Grandi luci, zero ingombro.',               image: 'https://www.alsistemcalabria.it/wp-content/uploads/serramenti-scorrevoli-in-alluminio-legno.jpg', imageAlt: 'Finestra scorrevole' },
     { slug: 'vasistas',    label: 'Finestre vasistas',     meta: 'Apertura a ribalta per ricambio aria.',     image: 'https://fabbro.roma.it/wp-content/uploads/2018/12/Apertura-vasistas.png', imageAlt: 'Finestra vasistas' },
   ],
