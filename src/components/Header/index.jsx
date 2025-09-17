@@ -25,6 +25,7 @@ const isSimpleEntry = (sub) => {
 export default function Header({ nav = [] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openFlyout, setOpenFlyout] = useState(null); // id della voce aperta (desktop)
+  const [openGroupId, setOpenGroupId] = useState(null); // mobile: una sola categoria aperta
   const navRef = useRef(null);
   const closeTimer = useRef(null);
 
@@ -170,7 +171,14 @@ export default function Header({ nav = [] }) {
       >
         <ul className={styles.drawerList}>
           {nav.map((item, idx) => (
-            <MobileGroup key={item.id} item={item} orderIndex={idx} onNavigate={() => setMobileOpen(false)} />
+            <MobileGroup
+              key={item.id}
+              item={item}
+              orderIndex={idx}
+              isOpen={openGroupId === item.id}
+              onToggle={() => setOpenGroupId(prev => (prev === item.id ? null : item.id))}
+              onNavigate={() => setMobileOpen(false)}
+            />
           ))}
         </ul>
       </div>
@@ -185,37 +193,42 @@ export default function Header({ nav = [] }) {
   );
 }
 
-function MobileGroup({ item, onNavigate, orderIndex = 0 }) {
-  const [open, setOpen] = useState(false);
+function MobileGroup({ item, onNavigate, orderIndex = 0, isOpen = false, onToggle = () => {} }) {
   return (
     <li className={styles.group} style={{ "--i": orderIndex }}>
       <button
         className={styles.groupToggle}
-        aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        aria-expanded={isOpen}
+        onClick={onToggle}
       >
         <span>{item.label}</span>
-        <svg width="10" height="10" viewBox="0 0 10 10" className={`${styles.chev} ${open ? styles.chevOpen : ""}`}>
+        <svg width="10" height="10" viewBox="0 0 10 10" className={`${styles.chev} ${isOpen ? styles.chevOpen : ""}`}>
           <path d="M1.5 3l3.5 4L8.5 3" fill="none" stroke="currentColor" strokeWidth="1.2" />
         </svg>
       </button>
       {item.children?.length > 0 && (
-        <ul className={`${styles.groupList} ${open ? styles.groupListOpen : ""}`}>
+        <ul className={`${styles.groupList} ${isOpen ? styles.groupListOpen : ""}`}>
           {item.children.map((sub, subIdx) => {
             const simple = isSimpleEntry(sub);
+            const hasThumb = !simple && (sub.image || sub.flyoutImage);
             return (
               <li key={sub.id} className={styles.groupItem} style={{ "--i": subIdx }}>
-                <a href={sub.href || "#"} className={styles.groupLink} onClick={onNavigate}>
-                  {(sub.image || sub.flyoutImage) && !simple ? (
-                    <span className={styles.groupThumb} aria-hidden={true}>
+                <a
+                  href={sub.href || "#"}
+                  className={`${styles.groupLink} ${!hasThumb ? styles.noThumb : ''}`}
+                  onClick={onNavigate}
+                >
+                  <span className={styles.groupThumb} aria-hidden={true}>
+                    {hasThumb && (
                       <img
                         src={sub.image || sub.flyoutImage}
                         alt=""
                         className={styles.groupThumbImg}
                         loading="lazy"
                       />
-                    </span>
-                  ) : null}
+                    )}
+                  </span>
+
                   <span className={styles.groupText}>
                     <span className={styles.flyoutTitle}>{sub.label}</span>
                     {sub.meta && <span className={styles.groupMeta}>{sub.meta}</span>}

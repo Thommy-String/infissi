@@ -209,6 +209,7 @@ html, body { width: 100%; }
   font-weight: 600;
   line-height: 1.15;
   transform-origin: left center;  /* nicer scale on hover */
+  overflow-wrap: anywhere;
 }
 
 .flyoutMeta { display: block; font-size: 14px; color: var(--muted); line-height: 1.35; }
@@ -253,11 +254,15 @@ html, body { width: 100%; }
   transform: translateY(-10px) scale(.985);
   opacity: 0; pointer-events: none;
   transition: opacity .34s var(--ease-spring), transform .34s var(--ease-spring);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden; /* prevent horizontal scroll */
   z-index: 58;
   -webkit-overflow-scrolling: touch;
   touch-action: manipulation;
 }
+@supports (overflow: clip) {
+    .drawer { overflow-x: clip; }
+  }
 .drawerOpen { 
   transform: translateY(0) scale(1); 
   opacity: 1; 
@@ -303,26 +308,22 @@ html, body { width: 100%; }
   }
   .groupLink {
     display: grid;
-    grid-template-columns: 48px 1fr;   /* bigger thumbnail */
+    grid-template-columns: auto 1fr; /* auto si adatta se c'è thumb, se non c'è tutto va a sx */
     align-items: center;
     column-gap: 12px;
-    padding: 14px 2px 16px 2px;        /* taller tap target */
-    font-size: 17px;                    /* keep body size */
-    line-height: 1.25;
-    opacity: .95;
-    min-height: 64px;                   /* ensure visual height */
-    background-color: #fafafc;
+    padding: 16px 4px 18px 4px;
+    min-height: 72px;
   }
-  .groupLink:hover { background: rgba(255,255,255,.06); border-radius: 8px; }
-  /* Tiny thumbnail beside text in mobile drawer */
+
   .groupThumb {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
     overflow: hidden;
     background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
     border: 1px solid var(--border);
     display: block;
+    flex: 0 0 56px;
   }
   .groupThumbImg {
     width: 100%;
@@ -332,7 +333,7 @@ html, body { width: 100%; }
   }
 
   /* Stack title + meta vertically next to the thumb */
-  .groupText { display: grid; gap: 4px; }
+  .groupText { display: grid; gap: 4px; min-width: 0; }
 
   .groupMeta { font-size: 12px; opacity: .85; }
 }
@@ -381,18 +382,34 @@ html, body { width: 100%; }
 .groupItem { }
 .groupLink {
   display: grid;
-  grid-template-columns: 48px 1fr;  /* bigger thumb + text */
+  grid-template-columns: 56px 1fr;   /* unified two-column layout for drawer items */
   align-items: center;
   column-gap: 12px;
-  padding: 14px 6px 16px 6px;       /* taller item */
+  padding: 16px 6px 18px 6px;
   text-decoration: none; color: var(--text); opacity: .95;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   pointer-events: auto;
-  min-height: 64px;
+  min-height: 72px;
 }
-.groupLink:hover { background: rgba(255,255,255,.06); border-radius: 8px; }
-.groupMeta { color: var(--muted); font-size: 12px; width: 70vw;}
+/* Reserve slot for items without images as well outside the media block */
+.noThumb .groupThumb {
+  background: transparent;
+  border: 0;
+}
+.noThumb .groupThumb::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.groupMeta {
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 100%;           /* keep within container */
+    overflow-wrap: anywhere;    /* break long strings if needed */
+  }
 
 /* Backdrop */
 .backdrop {
