@@ -1,8 +1,12 @@
 import CategoryCard from './components/CategoryCard'
 import CategoryGrid from './components/CategoryGrid'
-import Header from "./components/Header";
+import Footer from './components/Footer'
+import Header from "./components/Header"
+import MainHero from './components/MainHero'
 import pvcInfisso from './assets/images/pvcInfisso.png'
 import tapparelle from './assets/images/tapparelle.png'
+import MainCategories from './components/MainCategories.jsx'
+
 
 const INTENTS = {
   nuova:       { key: 'nuova',       label: 'Nuova installazione',     meta: 'Consulenza, scelta e posa professionale.' },
@@ -57,6 +61,17 @@ const SUBCATS = {
   ],
 };
 
+const MACRO_CATEGORIES = [
+  { title: 'Infissi',       image: 'https://www.esaitalyserramenti.it/images/infissi.png', href: '/prodotti/infissi' },
+  { title: 'Tapparelle',    image: tapparelle, href: '/prodotti/tapparelle' },
+  { title: 'Porte interne', image: 'https://www.scaliahomedesign.it/userfiles/image/scalia-home-design-porte-finestre-custonaci-trapani-porte-interne-double.png?1545906829170', href: '/prodotti/porte-interne' },
+  { title: 'Persiane',      image: 'https://demo.puntopersiane.it/wp-content/uploads/2023/06/PIEMONTESE.png', href: '/prodotti/persiane' },
+  { title: 'Zanzariere',    image: 'https://cdn-it02.markeplay.com/media/images/c43e228275c54b1302049ecd436534449aea5305/image.webp?v=1', href: '/prodotti/zanzariere' },
+  { title: 'Porte garage',  image: 'https://lacentrale-eco.com/images/detailed/12/porte_de_garage_-_hormann.png', href: '/prodotti/porte-garage' },
+  { title: 'Tende da sole', image: 'https://www.isotra.it/m-images/1/2414/638314117842533333/preview/r-1000x324-85/Jasmina.png', href: '/prodotti/tende' },
+  { title: 'Cassonetti',    image: 'https://www.infinitoserramenti.it/wp-content/uploads/2024/12/cassonetto-bora-per-finestre.png', href: '/prodotti/cassonetti' },
+];
+
 const buildItem = (cat, intent) => ({
   id: `${cat}-${intent.key}`,
   label: intent.label,
@@ -96,13 +111,50 @@ const NAV = [
   buildCat('cassonetti',    'Cassonetti',    ['nuova','sostituzione','riparazione'], SUBCATS.cassonetti),
 ];
 
+const CONTACTS = {
+  id: 'contatti',
+  label: 'Contatti',
+  type: 'group',
+  children: [
+    {
+      id: 'contatti-chiama',
+      label: 'Chiama 📞',
+      href: 'tel:+390000000000',
+      meta: 'Parla con un esperto ora.',
+      layout: 'simple',
+    },
+    {
+      id: 'contatti-email',
+      label: 'Scrivi email ✉️',
+      href: 'mailto:info@x-infissi.it',
+      meta: 'Rispondiamo in 24 ore.',
+      layout: 'simple',
+    },
+    {
+      id: 'contatti-preventivo',
+      label: 'Crea preventivo ✍🏻',
+      href: '/preventivo',
+      meta: 'Stima immediata su misura.',
+      layout: 'simple',
+    },
+    {
+      id: 'indirizzo',
+      label: 'Showroom 📍',
+      href: '/negozio',
+      meta: 'Vieni a trovarci.',
+      layout: 'simple',
+    },
+  ],
+};
+
 function App() {
   
 
   return (
     <>
-      <Header nav={NAV} />
-
+      <Header nav={[...NAV, CONTACTS]} />
+      <MainHero></MainHero>
+      <MainCategories items={MACRO_CATEGORIES} />
       <CategoryCard
         title='Infissi in PVC'
         subtitle='Durabilità e isolamento termico.'
@@ -211,6 +263,9 @@ function App() {
         imageHeightMobile="250px"
       />
 
+
+
+        <Footer />
     </>
   )
 }

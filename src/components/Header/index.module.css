@@ -354,7 +354,7 @@ html, body { width: 100%; }
 }
 .drawerClose:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; border-radius: 8px; }
 
-.drawerList { list-style: none; padding: 48px 0px 0px 0px; display: grid; gap: 6px; position: relative; }
+.drawerList { list-style: none; padding: 28px 0px 0px 0px; display: grid; gap: 6px; position: relative; }
 
 .groupToggle {
   width: 100%; text-align: left;
